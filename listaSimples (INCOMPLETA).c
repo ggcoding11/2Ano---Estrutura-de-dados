@@ -10,6 +10,8 @@ typedef struct apelido_no{
 void inserir_inicio(No **lista);
 void inserir_fim(No **lista);
 void inserir_meio(No **lista, int ant);
+void inserir_ordenado(No **lista);
+void remover_no(No **lista);
 
 void imprimir(No *lista);
 
@@ -56,8 +58,16 @@ int main(){
 				inserir_fim(&lista);
 			break;
 			
+			case 4:
+				inserir_ordenado(&lista);
+			break;
+			
 			case 5:
 				imprimir(lista);
+			break;
+			
+			case 6:
+				remover_no(&lista);
 			break;
 		}
 	} while (opcao);
@@ -113,6 +123,8 @@ void inserir_fim(No **lista){
 }
 
 void inserir_meio(No **lista, int ant){
+	system("cls");
+	
 	int n;
 	
 	printf("Qual o valor adicionado?: ");
@@ -138,6 +150,81 @@ void inserir_meio(No **lista, int ant){
 		novo->proximo = NULL;
 		
 		*lista = novo;
+	}
+	
+	system("pause");
+}
+
+void inserir_ordenado(No **lista){
+	system("cls");
+	
+	//Lembrando que a ordem é crescente
+	
+	int n;
+	
+	printf("Qual o valor adicionado?: ");
+	scanf("%d", &n);
+	
+	No *novo = malloc(sizeof(No));
+	
+	novo->dado = n;
+	
+	if (*lista == NULL){
+		novo->proximo = NULL;
+		*lista = novo;
+	} else {
+		if (novo->dado < (*lista)->dado){
+			novo->proximo = *lista;
+			*lista = novo;
+		} else {
+			No *aux = *lista;
+			
+			while (aux->proximo && novo->dado > aux->proximo->dado){
+				aux = aux->proximo;
+			}
+			
+			novo->proximo = aux->proximo;
+			aux->proximo = novo;
+		}
+	}
+	
+	system("pause");
+}
+
+void remover_no(No **lista){
+	system("cls");
+	
+	int n;
+	
+	printf("Qual o valor a ser removido?: ");
+	scanf("%d", &n);
+	
+	if (*lista){
+		No *atual = *lista;
+		No *anterior = NULL;
+		
+		while (atual && atual->dado != n){
+			anterior = atual;
+			atual = atual->proximo;
+		}
+		
+		//Se for o primeiro elemento
+		if (anterior == NULL){
+			*lista = atual->proximo;
+			free(atual);
+		} else {
+			//Se nao encontrar ninguem
+			if (atual == NULL){
+				printf("Valor nao encontrado para remover!\n");
+			} else {
+				//Se não for nenhum desses, é só remover normal!
+				
+				anterior->proximo = atual->proximo;
+				free(atual);		
+			}	
+		}
+	} else {
+		printf("A lista ja esta vazia\n");
 	}
 	
 	system("pause");

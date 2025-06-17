@@ -17,6 +17,14 @@ void remover_no(No **lista);
 void imprimirIni(No *lista);
 void imprimirFim(No *lista);
 
+int coletarDados(){
+	int n;
+	printf("Digite o valor: ");
+	scanf("%d", &n);
+	
+	return n;
+}
+
 int main(){
 	setlocale(LC_ALL, "Portuguese");	
 	
@@ -83,15 +91,78 @@ int main(){
 }
 
 void inserir_inicio(No **lista){
+	system("cls");
 	
+	int n = coletarDados();
+	
+	No *novo = malloc(sizeof(No));
+	
+	novo->dado = n; // 1
+		
+	novo->proximo = *lista; //2
+	novo->anterior = NULL; // 3
+	
+	if (*lista){
+		(*lista)->anterior = novo; // 4
+	}
+	
+	*lista = novo; // 5
 }
 
 void inserir_fim(No **lista){
-
+	system("cls");
+	
+	int n = coletarDados();
+	
+	No *novo = malloc(sizeof(No));
+	
+	novo->dado = n; 
+	novo->proximo = NULL;
+	
+	if (*lista){
+		No *aux = *lista;
+		
+		while (aux->proximo){
+			aux = aux->proximo;
+		}
+		
+		novo->anterior = aux;
+		aux->proximo = novo;
+	} else {
+		novo->anterior = NULL;
+		*lista = novo;
+	}
 }
 
 void inserir_meio(No **lista, int ant){
+	system("cls");
 	
+	int n = coletarDados();
+	
+	No *novo = malloc(sizeof(No));
+	
+	novo->dado = n;
+	
+	if (*lista){
+		No *aux = *lista;
+		
+		while (aux->proximo && aux->dado != ant){
+			aux = aux->proximo;
+		}
+		
+		novo->proximo = aux->proximo;
+		novo->anterior = aux;
+		aux->proximo = novo;
+		
+		if (aux->proximo){	
+			novo->proximo->anterior = novo;
+		} 
+	} else {
+		novo->proximo = NULL;
+		novo->anterior = NULL;
+		
+		*lista = novo;		
+	}
 }
 
 void inserir_ordenado(No **lista){

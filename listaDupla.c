@@ -158,7 +158,7 @@ void inserir_meio(No **lista, int ant){
 		novo->anterior = aux;
 		aux->proximo = novo;
 		
-		if (aux->proximo){	
+		if (novo->proximo){	
 			novo->proximo->anterior = novo;
 		} 
 	} else {
@@ -213,7 +213,43 @@ void inserir_ordenado(No **lista){
 }
 
 void remover_no(No **lista){
+	system("cls");
 	
+	int n = coletarDados();
+	
+	if (*lista){
+		No *aux = *lista;
+	
+		while (aux && aux->dado != n){
+			aux = aux->proximo;
+		}
+		
+		if (aux == NULL){
+			printf("Elemento nao encontrado!\n\n");
+		} else {
+			if (aux->anterior == NULL){
+				*lista = aux->proximo;
+				
+				if (*lista){
+					(*lista)->anterior = NULL;	
+				}
+	
+				free(aux);	
+			} else {
+				aux->anterior->proximo = aux->proximo;
+				
+				if (aux->proximo){
+					aux->proximo->anterior = aux->anterior;
+				}		
+				
+				free(aux);
+			}
+		}
+	} else {
+		printf("A lista esta vazia\n\n");
+	}
+	
+	system("pause");
 }
 
 void imprimirIni(No *lista){

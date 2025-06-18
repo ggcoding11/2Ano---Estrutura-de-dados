@@ -107,6 +107,8 @@ void inserir_inicio(No **lista){
 	}
 	
 	*lista = novo; // 5
+	
+	system("pause");
 }
 
 void inserir_fim(No **lista){
@@ -132,6 +134,8 @@ void inserir_fim(No **lista){
 		novo->anterior = NULL;
 		*lista = novo;
 	}
+	
+	system("pause");
 }
 
 void inserir_meio(No **lista, int ant){
@@ -163,10 +167,49 @@ void inserir_meio(No **lista, int ant){
 		
 		*lista = novo;		
 	}
+	
+	system("pause");
 }
 
 void inserir_ordenado(No **lista){
+	system("cls");
 	
+	int n = coletarDados();
+	
+	No *novo = malloc(sizeof(No));
+	
+	novo->dado = n;
+	
+	if (*lista){
+		if ((*lista)->dado > n){
+			novo->proximo = *lista;
+			(*lista)->anterior = novo;
+			novo->anterior = NULL;
+			
+			*lista = novo;
+		} else {
+			No *aux = *lista;
+			
+			while (aux->proximo && aux->proximo->dado < n){
+				aux = aux->proximo;
+			}	
+			
+			novo->proximo = aux->proximo;
+			novo->anterior = aux;
+			
+			if (aux->proximo){
+				aux->proximo->anterior = novo;				
+			} 
+			
+			aux->proximo = novo;
+		}
+	} else {
+		novo->proximo = NULL;
+		novo->anterior = NULL;
+		*lista = novo;
+	}
+	
+	system("pause");
 }
 
 void remover_no(No **lista){
@@ -174,9 +217,37 @@ void remover_no(No **lista){
 }
 
 void imprimirIni(No *lista){
+	system("cls");
 	
+	if (lista){
+		while (lista){
+			printf("%d\n", lista->dado);
+			lista = lista->proximo;
+		}
+	} else {
+		printf("A lista esta vazia\n\n");
+	}
+	
+	system("pause");
 }
 
 void imprimirFim(No *lista){
+	system("cls");
 	
+	if (lista){
+		while (lista->proximo){
+			lista = lista->proximo;
+		}
+		
+		while (lista){
+			printf("%d\n", lista->dado);
+			
+			lista = lista->anterior;
+		}
+		
+	} else {
+		printf("A lista esta vazia\n\n");
+	}
+	
+	system("pause");
 }
